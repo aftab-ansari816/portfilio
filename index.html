@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aftab Ansari • Portfolio</title>
+  <meta name="description" content="Personal portfolio of Aftab Ansari – student and budding developer." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230a84ff'/%3E%3Ctext x='50' y='58' font-size='48' text-anchor='middle' fill='white' font-family='Arial,Helvetica,sans-serif'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg: #0b0c10;            /* dark background */
+      --panel: #11131a;         /* card panel */
+      --muted: #8a8f98;         /* muted text */
+      --text: #e6e7eb;          /* main text */
+      --brand: #4f46e5;         /* indigo */
+      --brand-2: #22d3ee;       /* cyan */
+      --ring: rgba(79,70,229,.35);
+      --ok: #10b981;            /* green */
+      --warn: #f59e0b;          /* amber */
+      --danger: #ef4444;        /* red */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg,#08090d 0%, #0b0c10 60%, #0f1117 100%);
+      color:var(--text);
+      line-height:1.6; letter-spacing:.2px;
+    }
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    img{max-width:100%; display:block}
+
+    /* Layout */
+    .container{max-width:1100px; margin-inline:auto; padding:24px}
+    header.sticky{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px);
+      background:rgba(11,12,16,.6); border-bottom:1px solid rgba(255,255,255,.06)
+    }
+    nav{display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700}
+    .brand .logo{width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg,var(--brand),var(--brand-2)); box-shadow:var(--shadow)}
+    .brand .logo span{font-weight:800}
+    .nav-links{display:flex; gap:18px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:#121420; color:var(--text); box-shadow:var(--shadow)}
+    .btn:hover{transform:translateY(-1px); text-decoration:none}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#07080c; font-weight:700}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center; padding:40px 0}
+    .hero h1{font-size:clamp(28px,4vw,48px); line-height:1.15; margin:0}
+    .hero p{color:var(--muted); margin:12px 0 20px}
+    .badge{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(79,70,229,.12); color:#c7c9ff; border:1px solid rgba(79,70,229,.35)}
+    .hero .card{background:var(--panel); border:1px solid rgba(255,255,255,.06); padding:18px; border-radius:18px}
+
+    /* Sections */
+    section{padding:30px 0; border-top:1px solid rgba(255,255,255,.06)}
+    section h2{font-size:clamp(20px,3vw,28px)}
+    .grid{display:grid; gap:18px}
+    .g-2{grid-template-columns:repeat(2,1fr)}
+    .g-3{grid-template-columns:repeat(3,1fr)}
+
+    .card{background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:18px}
+    .card:hover{border-color:rgba(255,255,255,.16)}
+
+    .tag{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.08); background:#121420; font-size:14px}
+
+    .progress{height:10px; background:#0a0c12; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.06)}
+    .progress > span{display:block; height:100%; background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+
+    /* Timeline */
+    .timeline{position:relative; padding-left:22px}
+    .timeline:before{content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background:linear-gradient(var(--brand),transparent)}
+    .timeline-item{margin:0 0 16px 0}
+    .timeline-item .dot{width:12px; height:12px; border-radius:50%; background:var(--brand); display:inline-block; margin-right:10px; box-shadow:0 0 0 4px rgba(79,70,229,.2)}
+
+    /* Footer */
+    footer{padding:30px 0; color:var(--muted)}
+
+    /* Utilities */
+    .muted{color:var(--muted)}
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .center{display:grid; place-items:center}
+    .right{margin-left:auto}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr; text-align:center}
+      .right{margin-left:0}
+      .g-2{grid-template-columns:1fr}
+      .g-3{grid-template-columns:1fr}
+      nav{gap:10px}
+    }
+
+    /* Light mode (toggleable) */
+    .light{
+      --bg:#f6f7fb; --panel:#ffffff; --text:#0f172a; --muted:#5b6473; --ring:rgba(79,70,229,.3);
+      background:linear-gradient(180deg,#ffffff 0%, #f6f7fb 70%, #eef1f7 100%);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="sticky">
+    <div class="container">
+      <nav>
+        <div class="brand">
+          <div class="logo"><span>AA</span></div>
+          <span>Aftab Ansari</span>
+        </div>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Timeline</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <button id="themeBtn" class="btn" aria-label="Toggle theme">🌓 Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="container hero">
+    <div>
+      <span class="badge">Student • BCA • Learner</span>
+      <h1>Hi, I’m Aftab. I’m learning to build clean, usable websites and simple apps.</h1>
+      <p>I’m a first‑year student exploring HTML, CSS, and C programming. This portfolio is a single‑file project so I can see how everything works together in one place.</p>
+      <div class="row">
+        <a class="btn primary" href="#projects">See Projects</a>
+        <a class="btn" href="#contact">Contact</a>
+        <a class="btn" download href="#" onclick="alert('Add your resume.pdf path in the link!')">⬇️ Download Résumé</a>
+      </div>
+      <p class="muted" style="margin-top:10px">Tip: View source to learn. Everything is pure HTML, CSS, and a tiny bit of JS.</p>
+    </div>
+
+    <div class="card">
+      <canvas id="globe" width="520" height="300" aria-label="Decorative gradient canvas"></canvas>
+      <p class="muted" style="margin:8px 0 0">A simple animated canvas just for flair.</p>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container grid g-2">
+      <div class="card">
+        <h2>About</h2>
+        <p>I like making small projects that teach me something new. Right now I’m focusing on the basics: semantic HTML, responsive layouts, neat typography, and writing clean code. I also enjoy problem solving and learning by doing.</p>
+        <div class="row" style="margin-top:8px">
+          <span class="tag">📍 Bareilly, India</span>
+          <span class="tag">🎓 BCA (Year 1)</span>
+          <span class="tag">⌨️ Learning: C • HTML • CSS</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Quick Facts</h2>
+        <ul>
+          <li>I prefer simple, readable UI over flashy effects.</li>
+          <li>Comfortable with VS Code and Live Server.</li>
+          <li>Interested in security and basic electronics (like drone detection research in future).</li>
+          <li>Languages: Hindi and English.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <h2>Skills & Tools</h2>
+      <div class="grid g-3" style="margin-top:12px">
+        <div class="card">
+          <h3>HTML</h3>
+          <p class="muted">Semantic tags, forms, tables, accessibility basics.</p>
+          <div class="progress" aria-label="HTML level"><span style="width:75%"></span></div>
+        </div>
+        <div class="card">
+          <h3>CSS</h3>
+          <p class="muted">Flexbox, Grid, responsive design, variables.</p>
+          <div class="progress" aria-label="CSS level"><span style="width:60%"></span></div>
+        </div>
+        <div class="card">
+          <h3>C Language</h3>
+          <p class="muted">Syntax, data types, control flow, functions.</p>
+          <div class="progress" aria-label="C level"><span style="width:45%"></span></div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <span class="tag">VS Code</span>
+        <span class="tag">Git (basics)</span>
+        <span class="tag">Linux Terminal</span>
+        <span class="tag">Canva</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="grid g-3" style="margin-top:12px">
+        <article class="card">
+          <h3>Portfolio (This page)</h3>
+          <p class="muted">Single‑file HTML with custom CSS and minimal JS. Dark/light theme, smooth scroll, and responsive layout.</p>
+          <div class="row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+        </article>
+        <article class="card">
+          <h3>Typing Practice Page</h3>
+          <p class="muted">A small page to practice Hindi and English typing. Timer, WPM counter, and error highlight. (Add later)</p>
+          <div class="row"><span class="tag">JS</span><span class="tag">Web Fonts</span></div>
+        </article>
+        <article class="card">
+          <h3>Gym Log</h3>
+          <p class="muted">Simple table based workout tracker with CSV export. Focus on clean forms and localStorage.</p>
+          <div class="row"><span class="tag">Forms</span><span class="tag">Table</span><span class="tag">localStorage</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience / Timeline -->
+  <section id="experience">
+    <div class="container">
+      <h2>Timeline</h2>
+      <div class="timeline" style="margin-top:12px">
+        <div class="timeline-item">
+          <span class="dot"></span>
+          <strong>Aug 2025:</strong> Started BCA and built my first full HTML portfolio.
+        </div>
+        <div class="timeline-item">
+          <span class="dot" style="background:var(--ok)"></span>
+          <strong>Jul 2025:</strong> Set up MinGW and wrote first C programs.
+        </div>
+        <div class="timeline-item">
+          <span class="dot" style="background:var(--warn)"></span>
+          <strong>Jun 2025:</strong> Planned a typing practice project (Hindi + English).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education & Certificates -->
+  <section id="education">
+    <div class="container grid g-2">
+      <div class="card">
+        <h2>Education</h2>
+        <ul>
+          <li><strong>BCA</strong> — Future University, Bareilly (2025–2028)</li>
+          <li><strong>12th (PCB)</strong> — 2025</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Certificates</h2>
+        <ul>
+          <li>SWAYAM / NPTEL (in progress)</li>
+          <li>Intro to Web Development (self study)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container grid g-2">
+      <div class="card">
+        <h2>Contact</h2>
+        <p class="muted">This form doesn’t send emails yet. It validates and shows a preview. Hook it to Formspree or your backend later.</p>
+        <form id="contactForm">
+          <div class="grid g-2">
+            <label>
+              <span>Name</span>
+              <input name="name" required placeholder="Your name" />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" required placeholder="you@example.com" />
+            </label>
+          </div>
+          <label style="display:block; margin-top:12px">
+            <span>Message</span>
+            <textarea name="message" rows="4" required placeholder="Write your message..."></textarea>
+          </label>
+          <div class="row" style="margin-top:12px">
+            <button class="btn primary" type="submit">Send</button>
+            <button class="btn" type="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Links</h2>
+        <ul>
+          <li>GitHub: <a href="#">github.com/aftab‑ansari</a></li>
+          <li>LinkedIn: <a href="#">linkedin.com/in/aftab‑ansari</a></li>
+          <li>Email: <a href="mailto:hello@example.com">hello@example.com</a></li>
+        </ul>
+        <h3 style="margin-top:14px">Quick Contact</h3>
+        <div class="row">
+          <a class="btn" href="tel:+910000000000">📞 Call</a>
+          <a class="btn" href="https://wa.me/910000000000" target="_blank" rel="noreferrer">💬 WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container row" style="align-items:center">
+      <small>© <span id="year"></span> Aftab Ansari. All rights reserved.</small>
+      <a class="right" href="#top" id="toTop" title="Back to top">↑ Top</a>
+    </div>
+  </footer>
+
+  <!-- Minimal form & theme JS -->
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+    (function(){
+      const saved = localStorage.getItem('theme');
+      if(saved==='light') document.body.classList.add('light');
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+
+    // Contact form preview + simple validation UI
+    const form = document.getElementById('contactForm');
+    form.querySelectorAll('input, textarea').forEach(el=>{
+      el.addEventListener('invalid', ()=>{
+        el.style.outline = '2px solid var(--danger)';
+        el.style.boxShadow = '0 0 0 4px rgba(239,68,68,.15)';
+      });
+      el.addEventListener('input', ()=>{
+        el.style.outline = '2px solid var(--ring)';
+        el.style.boxShadow = '0 0 0 4px var(--ring)';
+      });
+      el.addEventListener('blur', ()=>{
+        el.style.outline = '';
+        el.style.boxShadow = '';
+      });
+    });
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      alert(`Preview\nName: ${data.name}\nEmail: ${data.email}\n\n${data.message}\n\n(Connect a backend to actually send this!)`);
+      form.reset();
+    });
+
+    // Back-to-top smooth helper
+    document.getElementById('toTop').addEventListener('click', (e)=>{
+      e.preventDefault();
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+
+    // Tiny animated canvas for the hero card
+    const c = document.getElementById('globe');
+    const ctx = c.getContext('2d');
+    let t = 0;
+    function draw(){
+      const w=c.width, h=c.height;
+      ctx.clearRect(0,0,w,h);
+      // background gradient
+      const g = ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0,'#0a0f2e'); g.addColorStop(1,'#121a3a');
+      ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+      // particles ring
+      const cx=w/2, cy=h/2, R=100+10*Math.sin(t/15);
+      for(let i=0;i<180;i++){
+        const ang = (i/180)*Math.PI*2 + t/70;
+        const r = R + 25*Math.sin(i/7 + t/20);
+        const x = cx + Math.cos(ang)*r;
+        const y = cy + Math.sin(ang)*r*0.55; // pseudo 3D
+        const alpha = .3 + .7*((Math.sin(i/5 + t/10)+1)/2);
+        ctx.fillStyle = `rgba(34,211,238,${alpha})`;
+        ctx.fillRect(x, y, 2, 2);
+      }
+      // center glow
+      const cg = ctx.createRadialGradient(cx,cy,10,cx,cy,140);
+      cg.addColorStop(0,'rgba(79,70,229,.9)');
+      cg.addColorStop(1,'rgba(79,70,229,0)');
+      ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,140,0,Math.PI*2); ctx.fill();
+      t++;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+
+  <!-- Accessible base styles for form elements (kept at end for specificity) -->
+  <style>
+    input, textarea{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0a0c12; color:var(--text)}
+    .light input, .light textarea{background:#fff}
+    label span{display:block; font-size:14px; color:var(--muted); margin:6px 0}
+    h3{margin:6px 0 8px}
+    ul{padding-left:18px}
+    li{margin:4px 0}
+  </style>
+</body>
+</html>
+
+
